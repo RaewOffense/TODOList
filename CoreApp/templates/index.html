@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center bg-blue-600 p-4 text-white shadow-md">
+        <div class="text-2xl font-semibold">
+            Task Manager
+        </div>
+        <div>
+            <a href="{% url 'addTask' %}" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Add Task
+            </a>
+        </div>
+    </nav>
+
+    <!-- Task List -->
+    <div class="mt-8 mx-auto max-w-4xl">
+        <h2 class="text-3xl font-semibold text-center mb-6">Task List</h2>
+        
+        <!-- Task Table -->
+        <table class="min-w-full bg-white shadow-md rounded-md">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="px-4 py-2">Task</th>
+                    <th class="px-4 py-2">Start Date</th>
+                    <th class="px-4 py-2">End Date</th>
+                    <th class="px-4 py-2">Completed</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td class="px-4 py-2 border-b">{{ task.task }}</td>
+                    <td class="px-4 py-2 border-b">{{ task.start_date }}</td>
+                    <td class="px-4 py-2 border-b">{{ task.end_date }}</td>
+                    <td class="px-4 py-2 border-b">
+                        {% if task.completed %}
+                            <span class="text-green-500">Yes</span>
+                        {% else %}
+                            <span class="text-red-500">No</span>
+                        {% endif %}
+                        <td class="px-4 py-2 border-b">
+                            <!-- Update and Delete buttons -->
+                            <a href="{% url 'updateTask' task.id %}" class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg text-white">Update</a>
+                            <a href="{% url 'deleteTask' task.id %}" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white">Delete</a>
+                        </td>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-4">No tasks available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
